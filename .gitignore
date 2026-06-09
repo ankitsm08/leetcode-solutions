@@ -1,0 +1,10 @@
+# binaries
+*.out
+*.o
+*.exe
+*.class
+
+# ide
+*.swp
+.vscode/
+.idea/
