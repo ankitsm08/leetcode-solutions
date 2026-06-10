@@ -33,3 +33,4 @@ new num:
 fetch:
     .venv/bin/python scripts/slug-fetch.py problems/
     .venv/bin/python scripts/problem-fetch.py problems/
+    @just format
