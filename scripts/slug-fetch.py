@@ -55,7 +55,7 @@ def rename_folders(base_dir):
       continue
 
     num = m.group(1)
-    slug = id_to_slug.get(num)
+    slug = id_to_slug.get(str(int(num)))
     if not slug:
       continue
 
