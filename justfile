@@ -9,11 +9,8 @@ venv:
     ls .venv || uv venv --python=3.14
     uv pip install requests markdownify pandas numpy
 
-format-md:
-    fd -tf -e md -X prettier --write --color
-
-format-md-num num:
-    fd -tf -e md -p problems/$(printf "%04d" "{{ num }}") \
+format-md num="":
+    fd -tf -e md {{ if num == "" { "" } else { "-p problems/$(printf '%04d' " + num + ")" } }} \
       -X prettier --write --color
 
 format-cpp:
@@ -37,7 +34,7 @@ format-java:
 # format all files
 format-all:
     @just format-md
-    @just format-cc
+    @just format-cpp
     @just format-py
     @just format-web
     @just format-rs
@@ -47,7 +44,7 @@ format-all:
 new num:
     mkdir -p problems/$(printf "%04d" {{ num }})
     @just fetch
-    @just format-md-num {{ num }}
+    @just format-md {{ num }}
 
 # fetch slugs and problem data
 fetch:
