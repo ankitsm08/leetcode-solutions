@@ -66,3 +66,9 @@ Formatters use are:
 - `ruff` (Python)
 - `rustfmt` (Rust)
 - `google-java-format` (Java)
+
+## License
+
+**MIT License**
+
+**Disclaimer:** The problem statements and descriptions (problem.md) are the intellectual property of **LeetCode**. The license below only applies to my personal solutions, notes, and automation scripts.
