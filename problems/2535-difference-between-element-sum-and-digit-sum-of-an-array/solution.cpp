@@ -1,4 +1,3 @@
-#include <cstdlib>
 #include <vector>
 
 using namespace std;
@@ -6,17 +5,14 @@ using namespace std;
 class Solution {
 public:
   int differenceOfSum(vector<int> &nums) {
-    int element_sum = 0, digit_sum = 0;
+    int sum_diff = 0;
 
     for (int num : nums) {
-      element_sum += num;
-
-      while (num > 0) {
-        digit_sum += num % 10;
-        num /= 10;
+      while ((num /= 10) > 0) {
+        sum_diff += 9 * num;
       }
     }
 
-    return abs(element_sum - digit_sum);
+    return sum_diff;
   }
 };
