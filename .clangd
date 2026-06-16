@@ -1,0 +1,8 @@
+CompileFlags:
+  Add:
+    - -Wall
+    - -Wextra
+    - -Wpedantic
+    - -Wconversion
+    - -fsanitize=address
+    - -fsanitize=undefined
