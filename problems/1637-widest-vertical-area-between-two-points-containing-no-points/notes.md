@@ -8,5 +8,7 @@ skipping empty buckets, take max gap
 - method is known as "bucket method"
 - specifically maximum gap (pegionhole) technique
 
-Time Complexity: O(n)
-Space Complexity: O(n)
+---
+
+- **Time Complexity:** $O(n)$
+- **Space Complexity:** $O(n)$

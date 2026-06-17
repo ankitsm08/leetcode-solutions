@@ -25,17 +25,17 @@ If not, then we adjust our `low` and `high` values and recalculate,
 
 `i` = `(low + high) / 2` and `j`
 
-until we find the solution or low > high (unreachable)
+until we find the solution or `low` > `high` (unreachable)
 
 Edge Cases:
 
 if `i or j == 0`, treat array values like `-inf`  
 if `i == m or j == n`, treat array values like `inf`
 
-and to avoid `j < 0`, `m` must be equal to or more than `n`
+and to avoid `j < 0`, `m <= n` must hold true
 
 ---
 
-- **Time Complexity:** $O(log(m))$
-  - if `m < n`, else $O(log(n))$
+- **Time Complexity:** $O(\log m)$
+  - if `m < n`, else $O(\log n)$
 - **Space Complexity:** $O(1)$

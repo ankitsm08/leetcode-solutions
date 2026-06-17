@@ -1,6 +1,6 @@
 ### Tracking K
 
-If we store the resulting string, it may be as large as $10^15$ characters. That is too much ram.
+If we store the resulting string, it may be as large as $10^{15}$ characters. That is too much ram.
 
 To know what character is at `k` th index, we only need to track length as per the simulation. Then track k in a backward pass.
 

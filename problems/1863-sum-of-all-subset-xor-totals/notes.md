@@ -11,5 +11,7 @@ each such bit contributes `2^(n-1)` times
 
 `subsetXORSum = (bitwise OR of all elements) * 2^(n-1)`
 
-Time Complexity: O(n)
-Space Complexity: O(1)
+---
+
+- **Time Complexity:** $O(n)$
+- **Space Complexity:** $O(1)$
