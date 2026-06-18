@@ -36,8 +36,3 @@ Find the maximum radius in `P`. The original palindrome's start index is `(cente
   - because only `R` moves right. We never do redundant character comparisions.
 - **Space Complexity:** $O(n)$
   - for the helper array and preprocessed string.
-
----
-
-Time Complexity: O(n)  
-Space Complexity: O(n)

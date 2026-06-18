@@ -1,4 +1,5 @@
-Use inclusion exclusion principle and  
-use sum of AP formula.
+Use **Inclusion-Exclusion Principle** and sum of AP formula.
 
-Time Complexity: O(1)
+---
+
+- **Time Complexity:** $O(1)$

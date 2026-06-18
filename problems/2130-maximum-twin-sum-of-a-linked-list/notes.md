@@ -3,5 +3,7 @@
 3. Join end of former half to the new start of latter half
 4. Calculate max-sum
 
+---
+
 - **Time Complexity:** $O(n)$
 - **Space Complexity:** $O(1)$
