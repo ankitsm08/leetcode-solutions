@@ -5,9 +5,7 @@ typedef struct {
   int index;
 } Pair;
 
-int cmp(const void *a, const void *b) {
-  return (((Pair *)a)->value - ((Pair *)b)->value);
-}
+int cmp(const void *a, const void *b) { return (((Pair *)a)->value - ((Pair *)b)->value); }
 
 /**
  * Note: The returned array must be malloced, assume caller calls free().

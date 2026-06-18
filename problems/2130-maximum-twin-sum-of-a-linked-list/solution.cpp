@@ -60,8 +60,7 @@ public:
 int main() {
   Solution sol = Solution();
   {
-    ListNode *head =
-        new ListNode(5, new ListNode(4, new ListNode(2, new ListNode(1))));
+    ListNode *head = new ListNode(5, new ListNode(4, new ListNode(2, new ListNode(1))));
     int sum = sol.pairSum(head);
     assert(sum == 6);
     ListNode *curr = head;
@@ -72,8 +71,7 @@ int main() {
     }
   }
   {
-    ListNode *head =
-        new ListNode(4, new ListNode(2, new ListNode(2, new ListNode(3))));
+    ListNode *head = new ListNode(4, new ListNode(2, new ListNode(2, new ListNode(3))));
     int sum = sol.pairSum(head);
     assert(sum == 7);
     ListNode *curr = head;

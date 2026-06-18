@@ -3,8 +3,7 @@
 /**
  * Note: The returned array must be malloced, assume caller calls free().
  */
-int *findDegrees(int **matrix, int matrixSize, int *matrixColSize,
-                 int *returnSize) {
+int *findDegrees(int **matrix, int matrixSize, int *matrixColSize, int *returnSize) {
   int *ans = (int *)malloc(matrixSize * sizeof(int));
   for (size_t i = 0; i < matrixSize; i++) {
     ans[i] = 0;

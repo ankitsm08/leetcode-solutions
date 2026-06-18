@@ -3,8 +3,7 @@
 /**
  * Note: The returned array must be malloced, assume caller calls free().
  */
-int *recoverOrder(int *order, int orderSize, int *friends, int friendsSize,
-                  int *returnSize) {
+int *recoverOrder(int *order, int orderSize, int *friends, int friendsSize, int *returnSize) {
   int *orderFriends = (int *)malloc(friendsSize * sizeof(int));
   size_t idx = 0;
 

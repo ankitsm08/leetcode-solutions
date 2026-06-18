@@ -10,8 +10,7 @@ struct TreeNode {
 
 class Solution {
 public:
-  TreeNode *getTargetCopy(TreeNode *original, TreeNode *cloned,
-                          TreeNode *target) {
+  TreeNode *getTargetCopy(TreeNode *original, TreeNode *cloned, TreeNode *target) {
     if (!original)
       return nullptr;
 
