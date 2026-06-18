@@ -42,9 +42,15 @@ format-all:
 
 # create ONE new problem + fetch
 new num:
-    mkdir -p problems/$(printf "%04d" {{ num }})
-    @just fetch
-    @just format-md {{ num }}
+    n=$(printf "%04d" {{ num }}); \
+    if compgen -G "problems/$n*/" > /dev/null; then \
+      echo "** Problem $n already exists, skipping directory creation."; \
+      exit 0; \
+    fi; \
+    mkdir "problems/$n";
+
+    just fetch
+    just format-md {{ num }}
 
 # fetch slugs and problem data
 fetch:
