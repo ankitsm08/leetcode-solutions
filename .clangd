@@ -20,7 +20,6 @@ Diagnostics:
 
   ClangTidy:
     Add:
-      - bugprone-*
       - performance-*
       - modernize-*
     Remove:
