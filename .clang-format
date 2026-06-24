@@ -1,5 +1,17 @@
+---
+Language: Cpp
 BasedOnStyle: LLVM
+
 IndentWidth: 2
 TabWidth: 2
 UseTab: Never
 ColumnLimit: 100
+
+BreakBeforeBraces: Attach
+Cpp11BracedListStyle: true
+BreakBeforeBinaryOperators: NonAssignment
+PointerAlignment: Right
+
+KeepEmptyLinesAtTheStartOfBlocks: false
+MaxEmptyLinesToKeep: 1
+...
