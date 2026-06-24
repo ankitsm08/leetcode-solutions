@@ -1,4 +1,10 @@
-### 1D DP with Prefix Sums and Symmetry
+## 1D DP with Prefix Sums and Symmetry
+
+### Intuition
+
+A direct DP transition would require summing over all smaller or larger previous values for every state, leading to $O(n \cdot K^2)$ solution. However, since the transitions are just range sums and the zigzag direction strictly alternates, we can replace the inner loops with prefix sums that run in linear time. By exploiting the symmetry between UP-starting and DOWN-starting arrays, we only compute one side and mirror it at the end, reducing the problem to $O(n \cdot K)$ DP with constant extra space.
+
+### Approach
 
 This algorithm counts valid zigzag arrays by tracking the last number placed, using running totals and symmetry to optimize.
 
@@ -36,6 +42,8 @@ This algorithm counts valid zigzag arrays by tracking the last number placed, us
 Sum up everything left in the `dp` array. Multiply by 2 (to account for the mirrored DOWN starting arrays), apply the modulo one last time, and return.
 
 ---
+
+### Complexity
 
 - **Time Complexity:** $O(n \cdot K)$
   - Loop `n` times, doing exactly `K` operations per loop
