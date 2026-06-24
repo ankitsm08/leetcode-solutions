@@ -17,7 +17,6 @@ struct ListNode {
 class Solution {
 public:
   int pairSum(ListNode *head) {
-
     ListNode *mid = nullptr;
     ListNode *slow = head;
     ListNode *fast = head;

@@ -21,8 +21,8 @@ public:
       return 0;
 
     int new_max = max(branch_max, node->val);
-    return (branch_max <= node->val) + good_dfs(node->left, new_max) +
-           good_dfs(node->right, new_max);
+    return (branch_max <= node->val) + good_dfs(node->left, new_max)
+           + good_dfs(node->right, new_max);
   }
 
   int goodNodes(TreeNode *root) { return good_dfs(root, root->val); }

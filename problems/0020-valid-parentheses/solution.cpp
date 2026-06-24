@@ -6,8 +6,8 @@ using namespace std;
 class Solution {
 public:
   bool match(const char open, const char close) {
-    return (open == '(' && close == ')') || (open == '{' && close == '}') ||
-           (open == '[' && close == ']');
+    return (open == '(' && close == ')') || (open == '{' && close == '}')
+           || (open == '[' && close == ']');
   }
 
   bool isValid(string s) {
