@@ -56,8 +56,8 @@ new num:
       echo "** Problem $n already exists, skipping directory creation."; \
       exit 0; \
     fi; \
-    @echo "==> Creating problem directory..."
     mkdir "problems/$n";
+    @echo "==> Created problem directory."
 
     just fetch
     just format-md {{ num }}
