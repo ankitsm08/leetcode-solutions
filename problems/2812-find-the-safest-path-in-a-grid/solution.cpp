@@ -47,42 +47,81 @@ public:
       }
     }
 
-    // INFO: Modified Dijkstra + Priority Queue
+    // INFO: Dial's Algorithm
     //
-    using Cell = pair<int, Point>;
-    auto cmp = [](const Cell &c1, const Cell &c2) { return c1.first < c2.first; };
-    priority_queue<Cell, vector<Cell>, decltype(cmp)> pq(cmp);
-    vector<int> MaxSafePath(n * n, -1);
-    auto max_safe_path = [&](int i, int j) -> int & { return MaxSafePath[i * n + j]; };
+    vector<bool> Visited(n * n, false);
+    auto visited = [&](int i, int j) -> vector<bool>::reference { return Visited[i * n + j]; };
 
-    pq.emplace(safeness(0, 0), Point{0, 0});
-    max_safe_path(0, 0) = safeness(0, 0);
+    vector<Point> curr, next;
+    curr.emplace_back(0, 0);
+    visited(0, 0) = true;
 
-    while (!pq.empty()) {
-      auto [current_safeness, point] = pq.top();
-      auto [row, col] = point;
-      pq.pop();
+    int ans = min(safeness(0, 0), safeness(n - 1, n - 1));
 
-      if (row == n - 1 && col == n - 1)
-        return current_safeness;
+    while (ans > 0 && !curr.empty()) {
+      while (!curr.empty()) {
+        auto [row, col] = curr.back();
+        curr.pop_back();
 
-      if (max_safe_path(row, col) > current_safeness)
-        continue;
+        if (row == n - 1 && col == n - 1)
+          return ans;
 
-      for (int i = 0; i < 4; i++) {
-        int nr = row + dr[i], nc = col + dc[i];
-        if (nr < 0 || nr >= n || nc < 0 || nc >= n)
-          continue;
+        for (int i = 0; i < 4; i++) {
+          int nr = row + dr[i], nc = col + dc[i];
+          if (nr < 0 || nr >= n || nc < 0 || nc >= n || visited(nr, nc))
+            continue;
 
-        int new_safeness = min(current_safeness, safeness(nr, nc));
-        if (new_safeness > max_safe_path(nr, nc)) {
-          pq.emplace(new_safeness, Point{nr, nc});
-          max_safe_path(nr, nc) = new_safeness;
+          if (safeness(nr, nc) >= ans)
+            curr.emplace_back(nr, nc);
+          else
+            next.emplace_back(nr, nc);
+
+          visited(nr, nc) = true;
         }
       }
+
+      swap(curr, next);
+      ans--;
     }
 
-    return 0;
+    return ans;
+
+    // INFO: Modified Dijkstra + Priority Queue
+    //
+    // using Cell = pair<int, Point>;
+    // auto cmp = [](const Cell &c1, const Cell &c2) { return c1.first < c2.first; };
+    // priority_queue<Cell, vector<Cell>, decltype(cmp)> pq(cmp);
+    // vector<int> MaxSafePath(n * n, -1);
+    // auto max_safe_path = [&](int i, int j) -> int & { return MaxSafePath[i * n + j]; };
+    //
+    // pq.emplace(safeness(0, 0), Point{0, 0});
+    // max_safe_path(0, 0) = safeness(0, 0);
+    //
+    // while (!pq.empty()) {
+    //   auto [current_safeness, point] = pq.top();
+    //   auto [row, col] = point;
+    //   pq.pop();
+    //
+    //   if (row == n - 1 && col == n - 1)
+    //     return current_safeness;
+    //
+    //   if (max_safe_path(row, col) > current_safeness)
+    //     continue;
+    //
+    //   for (int i = 0; i < 4; i++) {
+    //     int nr = row + dr[i], nc = col + dc[i];
+    //     if (nr < 0 || nr >= n || nc < 0 || nc >= n)
+    //       continue;
+    //
+    //     int new_safeness = min(current_safeness, safeness(nr, nc));
+    //     if (new_safeness > max_safe_path(nr, nc)) {
+    //       pq.emplace(new_safeness, Point{nr, nc});
+    //       max_safe_path(nr, nc) = new_safeness;
+    //     }
+    //   }
+    // }
+    //
+    // return 0;
 
     // INFO: Binary Search + BFS over Answer
     //

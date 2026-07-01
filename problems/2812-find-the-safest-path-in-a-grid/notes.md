@@ -1,12 +1,12 @@
-## Multi-source BFS with Modified Dijkstra or Binary Search
+## Multi-source BFS with Dial's Algorithm, Modified Dijkstra, or Binary Search
 
 ### Intuition
 
-First figure out how safe every single cell actually is. Then pathfind through the grid maximizing that minimum safeness bottleneck.
+We cant evaluate any path without knowing where the danger is first. Expanding outward from all thieves at once gives us a heat map of safeness for every cell. Once we have this grid of distances, the problem changes entirely. It becomes a game of pathfinding where we want to avoid stepping on low numbers. We can either greedily pick the safest available route, guess a bottleneck threshold and verify it, or walk down safeness levels one by one.
 
 ### Approach
 
-Precompute thief distances with multi-source BFS and then find the bottleneck path using either Dijkstra or Binary search.
+Precompute thief distances with multi-source BFS and then find the bottleneck path using Dial's algorithm, Dijkstra, or Binary search.
 
 #### Prep
 
@@ -16,27 +16,37 @@ Precompute thief distances with multi-source BFS and then find the bottleneck pa
 
 #### Logic
 
-- **Max-Heap Bottleneck (Dijkstra):**  
+- **Binary Search:**
+  - **Smart Search Space:**  
+    The answer cannot exceed the safeness of the start or end cell.  
+    Cap the binary search high bound to save useless iterations
+  - **Threshold BFS:**  
+    Guess a minimum safeness factor and run a standard bfs.  
+    Only step on cells having safeness greater than or equal to mid
+
+- **Dijkstra's Algorithm (Max-Heap Bottleneck):**  
   Run dijkstra but maximize the minimum safeness seen along the path.  
   Keeps track of the best bottleneck distance to reach each cell
 
-- **Smart Search Space (Binary Search):**  
-  The answer cannot exceed the safeness of the start or end cell.  
-  Cap the binary search high bound to save useless iterations
-- **Threshold BFS (Binary Search):**  
-  Guess a minimum safeness factor and run a standard bfs.  
-  Only step on cells having safeness greater than or equal to mid
+- **Dial's Algorithm (2-Queue BFS):**  
+  Drop the heap overhead since adjacent cell safeness differs by at most 1,  
+  use two arrays to process current threshold and queue the next threshold.  
+  This drops the time complexity by a factor of $O(\log n)$
 
 #### Getting the result
 
-For dijkstra, just return the safeness factor when you pop the destination cell.  
+For dial's algorithm, just return the threshold answer when you reach the end.  
+For dijkstra, return the safeness factor when you pop the destination cell.  
 For binary search, return the highest valid mid that successfully reached the end.
 
 ---
 
 ### Complexity
 
-- **Time Complexity:** $O(n^2 \log n)$
-  - heap operations or binary search runs add logarithmic factor over grid size
+- **Time Complexity:**
+  - Dial's Algorithm: $O(n^2)$
+    - avoids the $O(\log n)$ overhead by removing the priority queue
+  - Dijkstra or Binary Search: $O(n^2 \log n)$
+    - heap operations or binary search runs add logarithmic factor over grid size
 - **Space Complexity:** $O(n^2)$
   - for the flattened safeness array and queue structures
