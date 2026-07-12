@@ -56,10 +56,10 @@ just new <problem_number>
 Runs the appropriate formatters on all supported files (respecting `.gitignore`):
 
 ```bash
-just format
+just format-all
 ```
 
-Formatters use are:
+Formatters used are:
 
 - `prettier` (Markdown, JS/TS, JSON, HTML, CSS)
 - `clang-format` (C/C++)
