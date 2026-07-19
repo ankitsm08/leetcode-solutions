@@ -1,4 +1,4 @@
-## Monotonic Stack with Greedy Lookahead (same as 0316)
+## Monotonic Stack with Greedy Lookahead
 
 ### Intuition
 
