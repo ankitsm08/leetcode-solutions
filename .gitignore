@@ -8,3 +8,9 @@
 *.swp
 .vscode/
 .idea/
+
+# cache
+.ruff_cache/
+
+# python venv
+.venv/
