@@ -9,6 +9,7 @@ class Solution {
   static inline vector<Block> blocks;
   static inline vector<int> pair_sums;
   static inline vector<int> ST;
+  static inline vector<int> char_to_block;
 
   inline int ilog2(int x) { return 31 - __builtin_clz(x); }
 
@@ -17,6 +18,7 @@ public:
     const int n = static_cast<int>(s.length());
 
     blocks.resize(0);
+    char_to_block.assign(n, -1);
     int total_ones = 0;
 
     for (int i = 0; i < n;) {
@@ -24,9 +26,12 @@ public:
         total_ones++;
         i++;
       } else {
-        int start = i++;
-        while (i < n && s[i] == '0')
+        int start = i;
+        int block_id = static_cast<int>(blocks.size());
+        while (i < n && s[i] == '0') {
+          char_to_block[i] = block_id;
           i++;
+        }
         blocks.emplace_back(start, i - 1);
       }
     }
@@ -75,15 +80,23 @@ public:
     for (const auto &q : queries) {
       const int l = q[0], r = q[1];
 
-      // first block extending past l
-      const auto it1 = lower_bound(blocks.begin(), blocks.end(), l,
-                                   [](const Block &b, int val) { return b.second < val; });
-      int first_idx = static_cast<int>(it1 - blocks.begin());
+      // first block inside or crossing 'l'
+      int first_idx = char_to_block[l];
+      if (first_idx == -1) {
+        int temp = l;
+        while (temp <= r && char_to_block[temp] == -1)
+          temp++;
+        first_idx = (temp <= r) ? char_to_block[temp] : m;
+      }
 
-      // last block starting before r
-      const auto it2 =
-          upper_bound(it1, blocks.end(), r, [](int val, const Block &b) { return val < b.first; });
-      int last_idx = static_cast<int>(it2 - blocks.begin()) - 1;
+      // last block inside or crossing 'r'
+      int last_idx = char_to_block[r];
+      if (last_idx == -1) {
+        int temp = r;
+        while (temp >= l && char_to_block[temp] == -1)
+          temp--;
+        last_idx = (temp >= l) ? char_to_block[temp] : -1;
+      }
 
       // 0 or 1 block
       if (first_idx == m || last_idx == -1 || first_idx >= last_idx) {
