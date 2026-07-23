@@ -9,7 +9,8 @@ class Solution {
   static inline vector<Block> blocks;
   static inline vector<int> pair_sums;
   static inline vector<int> ST;
-  static inline vector<int> char_to_block;
+  static inline vector<int> prev_zero;
+  static inline vector<int> next_zero;
 
   inline int ilog2(int x) { return 31 - __builtin_clz(x); }
 
@@ -18,18 +19,22 @@ public:
     const int n = static_cast<int>(s.length());
 
     blocks.resize(0);
-    char_to_block.assign(n, -1);
+    prev_zero.resize(n);
+    next_zero.resize(n);
     int total_ones = 0;
 
     for (int i = 0; i < n;) {
+      const int block_id = static_cast<int>(blocks.size());
       if (s[i] == '1') {
+        prev_zero[i] = block_id - 1;
+        next_zero[i] = block_id;
         total_ones++;
         i++;
       } else {
-        int start = i;
-        int block_id = static_cast<int>(blocks.size());
+        const int start = i;
         while (i < n && s[i] == '0') {
-          char_to_block[i] = block_id;
+          prev_zero[i] = block_id;
+          next_zero[i] = block_id;
           i++;
         }
         blocks.emplace_back(start, i - 1);
@@ -81,25 +86,13 @@ public:
       const int l = q[0], r = q[1];
 
       // first block inside or crossing 'l'
-      int first_idx = char_to_block[l];
-      if (first_idx == -1) {
-        int temp = l;
-        while (temp <= r && char_to_block[temp] == -1)
-          temp++;
-        first_idx = (temp <= r) ? char_to_block[temp] : m;
-      }
+      int first_idx = next_zero[l];
 
       // last block inside or crossing 'r'
-      int last_idx = char_to_block[r];
-      if (last_idx == -1) {
-        int temp = r;
-        while (temp >= l && char_to_block[temp] == -1)
-          temp--;
-        last_idx = (temp >= l) ? char_to_block[temp] : -1;
-      }
+      int last_idx = prev_zero[r];
 
       // 0 or 1 block
-      if (first_idx == m || last_idx == -1 || first_idx >= last_idx) {
+      if (first_idx == -1 || last_idx == -1 || first_idx >= last_idx) {
         ans.push_back(total_ones);
         continue;
       }
