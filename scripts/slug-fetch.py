@@ -18,10 +18,10 @@ HEADERS = {
 }
 
 
-def fetch_problem_map():
+def fetch_problem_map(force=False):
   import requests
 
-  if PROBLEM_MAP_CACHE.exists():
+  if not force and PROBLEM_MAP_CACHE.exists():
     age = time.time() - PROBLEM_MAP_CACHE.stat().st_mtime
     if age < CACHE_TTL:
       with open(PROBLEM_MAP_CACHE, "r", encoding="utf-8") as f:
@@ -43,6 +43,19 @@ def fetch_problem_map():
 
 def rename_folders(base_dir):
   id_to_slug = fetch_problem_map()
+
+  missing = [
+    name
+    for name in os.listdir(base_dir)
+    if os.path.isdir(os.path.join(base_dir, name))
+    and re.fullmatch(r"\d+", name)
+    and str(int(name)) not in id_to_slug
+  ]
+  if missing:
+    print(f"==> {len(missing)} numbered folder(s) missing from cache: {', '.join(sorted(missing))}")
+    print("==> Refreshing problem map...")
+    id_to_slug = fetch_problem_map(force=True)
+
   pattern = re.compile(r"^(\d+)$")
 
   for name in os.listdir(base_dir):
@@ -57,6 +70,7 @@ def rename_folders(base_dir):
     num = m.group(1)
     slug = id_to_slug.get(str(int(num)))
     if not slug:
+      print(f"!! No slug found for {num} after refresh (problem may not exist yet)")
       continue
 
     new_name = f"{num}-{slug}"
