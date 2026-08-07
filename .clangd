@@ -30,3 +30,22 @@ InlayHints:
   ParameterNames: Yes
   DeducedTypes: Yes
   Designators: Yes
+...
+---
+If:
+  PathMatch: .*\.(c|h)
+
+CompileFlags:
+  Add:
+    - -std=c11
+...
+---
+If:
+  PathMatch: .*\.(cpp|hpp|cxx|cc)
+
+CompileFlags:
+  Add:
+    - -std=c++23
+    - -Wnon-virtual-dtor
+    - -Wold-style-cast
+...
