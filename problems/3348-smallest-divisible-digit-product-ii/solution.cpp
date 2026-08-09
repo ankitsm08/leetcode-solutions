@@ -9,7 +9,7 @@ class Solution {
   using ull = unsigned long long;
 
   static constexpr int MAX_NUM = static_cast<int>(2 * 1e5);
-  static inline string ans = string(MAX_NUM + 1, '0');
+  static inline array<char, MAX_NUM + 1> ans{};
   static inline array<ll, MAX_NUM + 1> remaining{};
 
   static constexpr array<array<int, 10>, 10> GCD = []() {
@@ -81,6 +81,6 @@ public:
     while (MAX_NUM - idx < n + 1)
       ans[idx--] = '1';
 
-    return ans.substr(idx + 1);
+    return {ans.begin() + idx + 1, ans.end()};
   }
 };
