@@ -1,5 +1,6 @@
 #include <algorithm>
 #include <array>
+#include <bit>
 #include <vector>
 
 using namespace std;
@@ -7,7 +8,7 @@ using namespace std;
 class Solution {
   // log2(max(n) = 10^5)
   static constexpr int MAXN = 100001;
-  static constexpr int K = __bit_width(100001u);
+  static constexpr int K = bit_width(100001u);
 
   inline static array<int, K * MAXN> Jump;
 
@@ -20,7 +21,7 @@ public:
     for (int i = 0; i < n; i++)
       nodes.emplace_back(nums[i], i);
 
-    sort(nodes.begin(), nodes.end());
+    ranges::sort(nodes);
 
     vector<int> orig(n);
     for (int i = 0; i < n; i++) {
@@ -42,7 +43,7 @@ public:
       jump(i, 0) = j - 1;
     }
 
-    // build sparce table
+    // build sparse table
     for (int k = 1; k < K; k++) {
       for (int i = 0; i < n; i++)
         jump(i, k) = jump(jump(i, k - 1), k - 1);
@@ -65,7 +66,7 @@ public:
         continue;
       }
 
-      // binary jumping
+      // binary jumping / lifting
       int steps = 0;
       for (int k = K - 1; k >= 0; k--) {
         if (jump(L, k) < R) {
