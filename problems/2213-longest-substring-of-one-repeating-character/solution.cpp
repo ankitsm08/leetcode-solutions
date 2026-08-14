@@ -4,47 +4,45 @@
 
 using namespace std;
 
+// INFO: Segment Tree
 class Solution {
   struct Node {
-    char pref_char = 0, suff_char = 0;
-    int pref_len = 0, suff_len = 0, max_len = 0, len = 0;
+    char left = 0, right = 0;
+    int pref = 0, suff = 0, max_len = 0, len = 0;
+
+    Node() = default;
+    Node(char ch, int l) : left(ch), right(ch), pref(l), suff(l), max_len(l), len(l) {}
   };
 
   class SegmentTree {
     int n;
-    string s;
+    string &s;
     vector<Node> tree;
 
     Node merge(const Node &L, const Node &R) {
       Node P;
       P.len = L.len + R.len;
-      P.pref_char = L.pref_char;
-      P.suff_char = R.suff_char;
+      P.left = L.left;
+      P.right = R.right;
       P.max_len = max(L.max_len, R.max_len);
-      P.pref_len = L.pref_len;
-      P.suff_len = R.suff_len;
+      P.pref = L.pref;
+      P.suff = R.suff;
 
-      if (L.suff_char == R.pref_char) {
-        P.max_len = max(P.max_len, L.suff_len + R.pref_len);
+      if (L.right == R.left) {
+        P.max_len = max(P.max_len, L.suff + R.pref);
 
-        if (L.pref_len == L.len) {
-          P.pref_len = L.len + R.pref_len;
-        }
-        if (R.suff_len == R.len) {
-          P.suff_len = R.len + L.suff_len;
-        }
+        if (L.pref == L.len)
+          P.pref = L.len + R.pref;
+
+        if (R.suff == R.len)
+          P.suff = R.len + L.suff;
       }
       return P;
     }
 
     void build(int node, int L, int R) {
       if (L == R) {
-        tree[node] = {.pref_char = s[L],
-                      .suff_char = s[L],
-                      .pref_len = 1,
-                      .suff_len = 1,
-                      .max_len = 1,
-                      .len = 1};
+        tree[node] = Node(s[L], 1);
         return;
       }
       int mid = L + (R - L) / 2;
@@ -56,8 +54,7 @@ class Solution {
     void update(int node, int L, int R, int idx, char ch) {
       if (L == R) {
         s[idx] = ch;
-        tree[node] = {
-            .pref_char = ch, .suff_char = ch, .pref_len = 1, .suff_len = 1, .max_len = 1, .len = 1};
+        tree[node] = Node(ch, 1);
         return;
       }
       int mid = L + (R - L) / 2;
@@ -70,20 +67,19 @@ class Solution {
     }
 
   public:
-    SegmentTree(const string &str) {
-      s = str;
-      n = static_cast<int>(s.length());
+    SegmentTree(string &str) : s(str) {
+      n = static_cast<int>(str.length());
       tree.resize(4 * n);
       build(1, 0, n - 1);
     }
 
-    void update(int idx, char ch) { update(1, 0, n - 1, idx, ch); }
+    inline void update(int idx, char ch) { update(1, 0, n - 1, idx, ch); }
 
     [[nodiscard]] inline int getMax() const { return tree[1].max_len; }
   };
 
 public:
-  vector<int> longestRepeating(const string &s, const string &queryCharacters,
+  vector<int> longestRepeating(string &s, const string &queryCharacters,
                                vector<int> &queryIndices) {
     SegmentTree st(s);
     int k = static_cast<int>(queryIndices.size());
