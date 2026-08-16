@@ -61,6 +61,11 @@ def fetch_problem_markdown(slug: str):
   r.raise_for_status()
 
   q = r.json()["data"]["question"]
+
+  # skip locked/premium or unavailable
+  if q["content"] is None:
+    return q["title"], None
+
   body_md = md(q["content"], heading_style="ATX").strip()
   body_md = clean_markdown(body_md)
 
@@ -88,6 +93,10 @@ def process_folders(base_dir: str):
 
     title, body = fetch_problem_markdown(slug)
     url = f"https://leetcode.com/problems/{slug}/"
+
+    if body is None:
+      body = "> Problem content unavailable via LeetCode GraphQL API (locked/premium or unreleased)."
+      print(f"WARNING: no content for {name}; wrote placeholder")
 
     with open(md_path, "w", encoding="utf-8") as f:
       f.write(f"{url}\n\n# {title}\n\n{body}")
