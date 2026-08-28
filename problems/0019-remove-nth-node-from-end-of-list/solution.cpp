@@ -27,6 +27,7 @@ public:
 
     ListNode *toRemove = curr->next;
     curr->next = toRemove->next;
+    delete toRemove;
 
     return dummy.next;
   }
