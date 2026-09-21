@@ -33,16 +33,16 @@ public:
       Node *right = nullptr;
 
       for (size_t i = q.size(); i > 0; i--) {
-        Node *curr = q.front();
+        Node *node = q.front();
         q.pop();
 
-        curr->next = right;
-        right = curr;
+        node->next = right;
+        right = node;
 
-        if (curr->left) {
-          q.push(curr->right);
-          q.push(curr->left);
-        }
+        if (node->right)
+          q.push(node->right);
+        if (node->left)
+          q.push(node->left);
       }
     }
 
